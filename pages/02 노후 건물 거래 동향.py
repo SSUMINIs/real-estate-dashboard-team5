@@ -6,18 +6,27 @@ import pydeck as pdk
 # header
 st.header("노후 건물 거래 동향")
 
-# 데이터 로드
-data = pd.read_csv('data/Seoul_data.csv')
+# 데이터 로드 및 필터링
+data = pd.read_csv("data/Seoul_data.csv")
 
-# 데이터 준비
-current_year = pd.to_datetime('today').year
-data['Building Age'] = current_year - data['BUILD_YEAR']
+# 건물명이 누락된 경우 처리
+data['BLDG_NM'].fillna('Unknown', inplace=True)
+
+# 고유 식별자 생성 및 중복 제거
+data['unique_id'] = data['SGG_NM'] + data['BJDONG_NM'] + data['BLDG_NM'] + data['BUILD_YEAR'].astype(str)
+data_unique = data.drop_duplicates(subset='unique_id')
+
+# 현재 년도 정의
+current_year = 2024
+
+# '20년 이상', '20년 미만' 범주화
+data_unique['Age Category'] = data_unique['BUILD_YEAR'].apply(lambda x: '20년 이상' if current_year - x >= 20 else '20년 미만')
 
 # 20년 이상 된 건물만 필터링
-old_buildings = data[data['BUILD_YEAR'] <= (current_year - 20)]
+old_buildings = data_unique[data_unique['Age Category'] == '20년 이상']
 
 # 건물 유형별 및 구별 거래량 계산
-transaction_by_type_and_district = old_buildings.groupby(['SGG_NM', 'HOUSE_TYPE'])['BUILD_YEAR'].size().reset_index(name='TRANSACTION_COUNT')
+transaction_by_type_and_district = old_buildings.groupby(['SGG_NM', 'HOUSE_TYPE']).size().reset_index(name='TRANSACTION_COUNT')
 
 # 시각화
 fig = px.bar(

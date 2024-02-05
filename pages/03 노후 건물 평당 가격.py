@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 
 
 selected_house_types = st.multiselect(
-    'HOUSE TYPE을 골라주세요',
+    '건물 유형 선택',
     ['아파트', '단독다가구', '오피스텔', '연립다세대'],
     default=['아파트']
   )  # 기본 선택값 설정
@@ -22,9 +22,9 @@ data = pd.concat([pd.read_csv(f'data/{house_type}.csv') for house_type in select
 #selected_index = st.selectbox('동을 선택해주세요:', data2.loc[data2['SGG_NM'] == selected_SGG, 'BJDONG_NM'].unique())
 # 선택한 구와 동을 사이드바에서 선택
 
-selected_SGG = st.sidebar.selectbox('구를 선택해주세요:', data['SGG_NM'].unique())
+selected_SGG = st.sidebar.selectbox('구 선택', data['SGG_NM'].unique())
 selected_index = st.sidebar.selectbox(
-    '동을 선택해주세요:', data.loc[data['SGG_NM'] == selected_SGG, 'BJDONG_NM'].unique()
+    '동 선택', data.loc[data['SGG_NM'] == selected_SGG, 'BJDONG_NM'].unique()
 )
 
 # 선택한 HOUSE_TYPE에 대한 데이터 필터링 및 각 HOUSE_TYPE에 대한 막대 그래프 생성
@@ -41,20 +41,17 @@ for house_type in selected_house_types:
     fig.add_trace(go.Bar(x=[f"{house_type} 평균 가격"], y=[average_price_per], name=house_type))
 
 # 그래프 레이아웃 설정
-fig.update_layout(title=f'{", ".join(selected_house_types)}의 {selected_SGG}, {selected_index} 지역 1평당 평균 가격',
-                  xaxis_title='House Type',
-                  yaxis_title='1평당 평균 가격')
+fig.update_layout(
+    title=f'{", ".join(selected_house_types)}의 {selected_SGG}, {selected_index} 지역 1평당 평균 가격',
+    xaxis_title='House Type',
+    yaxis_title='1평당 평균 가격'
+)
 
 # 차트를 화면에 표시
 st.plotly_chart(fig)
 
-
-
-
-
-
 option = st.selectbox(
-    'HOUSE TYPE을 골라주세요',('아파트', '단독다가구', '오피스텔', '연립다세대')
+    '건물 유형 선택',('아파트', '단독다가구', '오피스텔', '연립다세대')
     )
 
 data2 = pd.read_csv(f'data/{option}.csv')
