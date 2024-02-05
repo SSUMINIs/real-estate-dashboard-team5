@@ -2,4 +2,7 @@ streamlit
 plotly
 pandas
 numpy
+geopandas
+matplotlib
+streamlit_option_menu
 

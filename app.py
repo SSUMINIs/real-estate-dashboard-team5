@@ -12,4 +12,5 @@ st.set_page_config(
 st.page_link("pages/home.py", label="홈", icon="🏠")
 st.page_link("pages/01 노후 건물 분포도.py", label="노후 건물 분포도", icon="1️⃣")
 st.page_link("pages/02 노후 건물 거래 동향.py", label="노후 건물 거래 동향", icon="2️⃣")
-st.page_link("https://github.com/Kimtae00/real-estate-dashboard", label="Github", icon="🚀")
+st.page_link("pages/03 노후 건물 평당 가격.py", label="노후 건물 거래 동향", icon="3️⃣")
+st.page_link("https://github.com/Kimtae00/real-estate-dashboard-team5", label="Github", icon="🚀")
