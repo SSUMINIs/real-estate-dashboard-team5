@@ -58,7 +58,10 @@ requirement.txt
 - **dotenv** :
 
 
-### 다이어그램
+### 서비스 다이어그램
 아래는 서비스 아키텍처를 보여주는 다이어그램입니다.
+![real-estate-dashboard 서비스 아키텍처](./서비스 다이어그램.png)
 
-![real-estate-dashboard 아키텍처](./.png)
+### Naver Open Search API
+아래는 Open Search API가 호출되는 로직입니다.
+![real-estate-dashboard Open Search API 로직](./API 로직.png)
