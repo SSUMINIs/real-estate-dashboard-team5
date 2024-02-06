@@ -28,80 +28,70 @@ old_buildings = data_unique[data_unique['Age Category'] == '20년 이상']
 # 20년 이상된 건물의 거래만 고려
 old_transactions = data[data['Age Category'] == '20년 이상']
 
-# 구별 거래량 계산 (DEAL_YMD 포함하지 않음)
-transactions_by_district = old_transactions.groupby('SGG_NM').size().reset_index(name='TRANSACTION_COUNT')
+# 구별 및 건물 유형별 거래량 계산
+transactions_by_type_and_district = old_transactions.groupby(['SGG_NM', 'HOUSE_TYPE']).size().reset_index(name='TRANSACTION_COUNT')
 
 # 거래량을 기준으로 내림차순 정렬
-transactions_by_district_sorted = transactions_by_district.sort_values(by='TRANSACTION_COUNT', ascending=False)
+transactions_by_type_and_district_sorted = transactions_by_type_and_district.sort_values(by=['SGG_NM', 'TRANSACTION_COUNT'], ascending=[True, False])
 
 # 시각화
 fig = px.bar(
-    transactions_by_district_sorted, 
+    transactions_by_type_and_district_sorted, 
     x="SGG_NM", 
     y="TRANSACTION_COUNT", 
-    title="서울시 구별 노후 건물 거래량", 
-    labels={'SGG_NM': '구', 'TRANSACTION_COUNT': '거래량'},
+    color="HOUSE_TYPE",
+    title="서울시 건물유형별 노후 건물 거래량",
+    labels={'SGG_NM': '구', 'TRANSACTION_COUNT': '거래량', 'HOUSE_TYPE': '건물 유형'},
+    barmode='stack'
 )
 st.plotly_chart(fig)
 
+# 'DISTRICT' 열 생성
+old_transactions['DISTRICT'] = old_transactions['SGG_NM'] + ' ' + old_transactions['BJDONG_NM']
 
-# 사이드바에서 구 선택
-selected_district = st.sidebar.selectbox("구 선택", ['전체'] + list(old_buildings['SGG_NM'].unique()))
+# 사이드바 설정
+district_options = ['노후 건물 거래량 상위 10개 지역'] + sorted(old_transactions['SGG_NM'].unique())
+selected_district = st.sidebar.selectbox("구 선택", district_options)
 
-# 사이드바에서 여러 건물 유형 선택
-selected_house_types = st.sidebar.multiselect("건물 유형 선택", old_buildings['HOUSE_TYPE'].unique(), default=old_buildings['HOUSE_TYPE'].unique())
+default_types = ['연립다세대', '단독다가구']
+selected_house_types = st.sidebar.multiselect("건물 유형 선택", old_transactions['HOUSE_TYPE'].unique(), default=default_types)
 
-# 선택된 구에 따른 데이터 필터링
-if selected_district != '전체':
-    filtered_data = old_buildings[old_buildings['SGG_NM'] == selected_district]
-else:
-    filtered_data = old_buildings
+# 데이터 필터링 및 시각화
+if selected_district != '노후 건물 거래량 상위 10개 지역':
+    # 해당 구와 선택된 건물 유형에 해당하는 데이터 필터링
+    filtered_data = old_transactions[(old_transactions['SGG_NM'] == selected_district) & (old_transactions['HOUSE_TYPE'].isin(selected_house_types))]
     
-# 선택된 건물 유형에 따른 데이터 필터링
-if selected_house_types:
-    filtered_data = filtered_data[filtered_data['HOUSE_TYPE'].isin(selected_house_types)]
-
-# 건물 유형별 거래량 계산
-transaction_by_type = filtered_data['HOUSE_TYPE'].value_counts().reset_index()
-transaction_by_type.columns = ['HOUSE_TYPE', 'TRANSACTION_COUNT']
-
-# 추가적인 시각화
-if selected_district == '전체':
+    # 'DISTRICT' 별로 거래량 계산 및 내림차순 정렬
+    transactions_by_district = filtered_data.groupby('DISTRICT').size().reset_index(name='TRANSACTION_COUNT')
+    transactions_by_district_sorted = transactions_by_district.sort_values(by='TRANSACTION_COUNT', ascending=False)
+        
     fig = px.bar(
-        transaction_by_type,
-        x='HOUSE_TYPE',
+        transactions_by_district_sorted,
+        x='DISTRICT',
         y='TRANSACTION_COUNT',
-        title='서울시 건물 유형별 거래량',
-        labels={'HOUSE_TYPE': '건물 유형', 'TRANSACTION_COUNT': '거래량'},
-        color='HOUSE_TYPE'
+        text='TRANSACTION_COUNT',
+        title=f'{selected_district} 지역 별 노후 건물 거래량',
+        labels={'DISTRICT': '지역', 'TRANSACTION_COUNT': '노후 건물 거래량'},
+        color='DISTRICT'
     )
+    st.plotly_chart(fig)
 else:
+    # 전체 데이터에서 건물 유형을 고려하여 'DISTRICT' 별 노후 건물 거래량 계산
+    filtered_data = old_transactions[old_transactions['HOUSE_TYPE'].isin(selected_house_types)]
+    building_counts_by_district = filtered_data.groupby('DISTRICT').size().reset_index(name='TRANSACTION_COUNT')
+    top10_districts = building_counts_by_district.nlargest(10, 'TRANSACTION_COUNT')
+
     fig = px.bar(
-        transaction_by_type,
-        x='HOUSE_TYPE',
+        top10_districts,
+        x='DISTRICT',
         y='TRANSACTION_COUNT',
-        title=f'{selected_district} 건물 유형별 거래량',
-        labels={'HOUSE_TYPE': '건물 유형', 'TRANSACTION_COUNT': '거래량'},
-        color='HOUSE_TYPE'
+        text='TRANSACTION_COUNT',
+        title='노후 건물 거래량이 가장 많은 상위 10개 지역',
+        labels={'DISTRICT': '지역', 'TRANSACTION_COUNT': '노후 건물 거래량'},
+        color='DISTRICT'
     )
-st.plotly_chart(fig)
+    st.plotly_chart(fig)
 
-# 노후 밀집도가 높은 10개 지역 구하기
-old_buildings['DISTRICT'] = old_buildings['SGG_NM'] + ' ' + old_buildings['BJDONG_NM']
-building_counts_by_district = old_buildings.groupby('DISTRICT').size().reset_index(name='OLD_BUILDING_COUNT')
-top10_districts = building_counts_by_district.nlargest(10, 'OLD_BUILDING_COUNT')
-
-# 시각화
-fig = px.bar(
-    top10_districts, 
-    x='DISTRICT', 
-    y='OLD_BUILDING_COUNT', 
-    text='OLD_BUILDING_COUNT',
-    title='노후 건물이 밀집한 상위 10개 지역', 
-    labels={'OLD_BUILDING_COUNT': '노후 건물 수', 'DISTRICT': '지역'},
-    color='DISTRICT'
-)
-st.plotly_chart(fig)
 
 # 노후 밀집도가 높은 3개 지역 구하기
 old_buildings['DISTRICT'] = old_buildings['SGG_NM'] + ' ' + old_buildings['BJDONG_NM']
@@ -114,7 +104,7 @@ fig = px.bar(
     x='DISTRICT', 
     y='OLD_BUILDING_COUNT', 
     text='OLD_BUILDING_COUNT',
-    title='노후 건물이 밀집한 상위 10개 지역', 
+    title='노후 건물이 밀집한 상위 3개 지역', 
     labels={'OLD_BUILDING_COUNT': '노후 건물 수', 'DISTRICT': '지역'},
     color='DISTRICT'
 )
