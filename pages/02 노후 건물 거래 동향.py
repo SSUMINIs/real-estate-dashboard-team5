@@ -1,7 +1,6 @@
 import streamlit as st
-import plotly.express as px
 import pandas as pd
-import pydeck as pdk
+import plotly.express as px
 
 # header
 st.header("노후 건물 거래 동향")
@@ -37,8 +36,6 @@ fig = px.bar(
     title="서울시 구별 건물 유형별 거래량", 
     labels={'SGG_NM': '구', 'TRANSACTION_COUNT': '거래량', 'HOUSE_TYPE': '건물 유형'}
 )
-
-# Streamlit에서 그래프 표시
 st.plotly_chart(fig)
 
 # 사이드바에서 구 선택
@@ -61,8 +58,8 @@ if selected_house_types:
 transaction_by_type = filtered_data['HOUSE_TYPE'].value_counts().reset_index()
 transaction_by_type.columns = ['HOUSE_TYPE', 'TRANSACTION_COUNT']
 
+# 추가적인 시각화
 if selected_district == '전체':
-    # 시각화
     fig = px.bar(
         transaction_by_type,
         x='HOUSE_TYPE',
@@ -70,10 +67,8 @@ if selected_district == '전체':
         title='서울시 건물 유형별 거래량',
         labels={'HOUSE_TYPE': '건물 유형', 'TRANSACTION_COUNT': '거래량'},
         color='HOUSE_TYPE'
-        )
-    st.plotly_chart(fig)
+    )
 else:
-    # 시각화
     fig = px.bar(
         transaction_by_type,
         x='HOUSE_TYPE',
@@ -81,22 +76,13 @@ else:
         title=f'{selected_district} 건물 유형별 거래량',
         labels={'HOUSE_TYPE': '건물 유형', 'TRANSACTION_COUNT': '거래량'},
         color='HOUSE_TYPE'
-        )
-    st.plotly_chart(fig)
+    )
+st.plotly_chart(fig)
 
-
-def get_get_top_districts():
-    # '구'와 '동'을 결합하여 고유한 지역명 생성
-    old_buildings['DISTRICT'] = old_buildings['SGG_NM'] + ' ' + old_buildings['BJDONG_NM']
-
-    # 고유 지역명 별로 노후 건물의 수 계산
-    building_counts_by_district = old_buildings.groupby('DISTRICT').size().reset_index(name='OLD_BUILDING_COUNT')
-
-    # 노후 건물이 많은 상위 3개 지역 선택
-    top_districts = building_counts_by_district.nlargest(3, 'OLD_BUILDING_COUNT')
-    return top_districts
-
-top3_districts = get_get_top_districts()
+# 노후 밀집도가 높은 3개 지역 구하기
+old_buildings['DISTRICT'] = old_buildings['SGG_NM'] + ' ' + old_buildings['BJDONG_NM']
+building_counts_by_district = old_buildings.groupby('DISTRICT').size().reset_index(name='OLD_BUILDING_COUNT')
+top3_districts = building_counts_by_district.nlargest(3, 'OLD_BUILDING_COUNT')
 
 # 시각화
 fig = px.bar(
@@ -108,5 +94,20 @@ fig = px.bar(
     labels={'OLD_BUILDING_COUNT': '노후 건물 수', 'DISTRICT': '지역'},
     color='DISTRICT'
 )
-
 st.plotly_chart(fig)
+
+# 크롤링 함수 불러오기
+from api import get_news_data
+
+# 관련 정보 가져오기 버튼
+if st.button("관련 정보 가져오기"):
+    for district in top3_districts['DISTRICT']:
+        news_data = get_news_data(district)
+        if news_data:
+            st.subheader(f"{district} 관련 뉴스")
+            for item in news_data:
+                st.markdown(f"[{item['title']}]({item['link']})")
+        else:
+            st.write(f"{district}에 대한 뉴스를 가져오는 데 실패했습니다.")
+
+    

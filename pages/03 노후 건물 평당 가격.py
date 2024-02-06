@@ -6,12 +6,14 @@ import plotly.subplots as sp
 import plotly.graph_objects as go
 
 
+# header
+
 
 selected_house_types = st.multiselect(
     '건물 유형 선택',
     ['아파트', '단독다가구', '오피스텔', '연립다세대'],
-    default=['아파트']
-  )  # 기본 선택값 설정
+    default=['아파트', '단독다가구', '오피스텔', '연립다세대']
+  )  
 
 data = pd.concat([pd.read_csv(f'data/{house_type}.csv') for house_type in selected_house_types])
 
@@ -21,7 +23,6 @@ data = pd.concat([pd.read_csv(f'data/{house_type}.csv') for house_type in select
 #selected_SGG = st.selectbox('구를 선택해주세요:', data2['SGG_NM'].unique())
 #selected_index = st.selectbox('동을 선택해주세요:', data2.loc[data2['SGG_NM'] == selected_SGG, 'BJDONG_NM'].unique())
 # 선택한 구와 동을 사이드바에서 선택
-
 selected_SGG = st.sidebar.selectbox('구 선택', data['SGG_NM'].unique())
 selected_index = st.sidebar.selectbox(
     '동 선택', data.loc[data['SGG_NM'] == selected_SGG, 'BJDONG_NM'].unique()
