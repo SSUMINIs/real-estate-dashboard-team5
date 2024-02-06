@@ -4,6 +4,6 @@ pandas
 numpy
 geopandas
 matplotlib
-streamlit_option_menu
 python-dotenv
 st_pages
+pydeck
