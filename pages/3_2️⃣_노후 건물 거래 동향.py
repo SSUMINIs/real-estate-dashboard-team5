@@ -93,5 +93,5 @@ else:
     st.plotly_chart(fig)
 
 # 크롤링 함수 불러오기
-from api import get_news_data
+# from api import get_news_data
     

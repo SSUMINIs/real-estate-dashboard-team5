@@ -45,16 +45,16 @@ tab1_data = tab1_df1.explode(index_parts=True).reset_index(drop=True)
 
 with open('data/seoul.geojson', encoding='UTF-8') as f:
     gpd_data = json.load(f)
-fig = px.choropleth_mapbox(tab1_data, geojson = gpd_data, locations='SIG_KOR_NM', color = 'mean',
-                        color_continuous_scale="reds", featureidkey = 'properties.SIG_KOR_NM', #YlOrRd
-                        mapbox_style="carto-positron", zoom=9.5, center = {'lat':37.563383, 'lon':126.996039}, #open-street-map ,carto-positron,white-bg
-                        opacity=0.5, labels={'meand':'서울시 노후건물 분포도(년)'},custom_data=['std'])
+    fig = px.choropleth_mapbox(tab1_data, geojson = gpd_data, locations='SIG_KOR_NM', color = 'mean',
+                            color_continuous_scale="reds", featureidkey = 'properties.SIG_KOR_NM', #YlOrRd
+                            mapbox_style="carto-positron", zoom=9.5, center = {'lat':37.563383, 'lon':126.996039}, #open-street-map ,carto-positron,white-bg
+                            opacity=0.5, labels={'meand':'서울시 노후건물 분포도(년)'},custom_data=['std'])
 
-fig.update_layout(margin={"r":0,"t":30,"l":0,"b":0},width=1200)
-fig.update_traces(hovertemplate='<b>%{location}</b><br>노후 건물 평균 년도: %{z:,.0f}(년)<br>표준편차: %{customdata:,.0f}')
-fig.update_coloraxes(colorbar_tickformat='000')
+    fig.update_layout(margin={"r":0,"t":30,"l":0,"b":0},width=1200)
+    fig.update_traces(hovertemplate='<b>%{location}</b><br>노후 건물 평균 년도: %{z:,.0f}(년)<br>표준편차: %{customdata:,.0f}')
+    fig.update_coloraxes(colorbar_tickformat='000')
 
-st.plotly_chart(fig)
+    st.plotly_chart(fig)
 
 gu_info = tab1_df20.groupby('SGG_NM').size().reset_index(name='size')
 result_df = pd.merge(tab1_df, gu_info, on='size')
@@ -89,7 +89,7 @@ district_age_data = unique_combin.groupby(['SGG_NM', 'BJDONG_NM','Age Category']
 
 #사이드바
 district_options = ['전체'] + district_age_data['SGG_NM'].unique().tolist()
-selected_gu_option = st.sidebar.selectbox("구를 선택하세요.", district_options)
+selected_gu_option = st.sidebar.selectbox("구 선택", district_options)
 
 if selected_gu_option == '전체':
     filtered_data = district_age_data
@@ -100,7 +100,7 @@ if selected_gu_option == '전체':
     
 else:
     district_gu_options = ['전체'] + district_age_data.loc[district_age_data['SGG_NM'] == selected_gu_option]['BJDONG_NM'].unique().tolist()
-    selected_dong_option = st.sidebar.selectbox("동을 선택하세요.",  district_gu_options, key=f"{selected_gu_option}_dong")
+    selected_dong_option = st.sidebar.selectbox("동 선택",  district_gu_options, key=f"{selected_gu_option}_dong")
     
     if selected_dong_option == '전체':
         filtered_data = district_age_data[district_age_data['SGG_NM'] == selected_gu_option]
@@ -161,8 +161,12 @@ fig = px.bar(
     y="Count", 
     color='SGG_NM', 
     labels={'Name': '지역', 'Count': '노후 건물수', 'SGG_NM' : '지역'},
+    text="Count",
     width=1200,
     height=500
 )
+
+#x축 정렬 설정
+fig.update_xaxes(categoryorder='total descending')
 
 st.plotly_chart(fig)
