@@ -5,6 +5,7 @@ from crawling import get_news_data
 
 st.set_page_config(layout="wide")
 
+# 데이터 불러오기
 data_danlist = pd.read_csv('data/단독다가구.csv')
 data_yeonlist = pd.read_csv('data/연립다세대.csv')
 
@@ -12,7 +13,6 @@ combined_data = pd.concat([data_danlist, data_yeonlist])
 
 # 화곡동에 해당하는 데이터만 필터링
 filtered_data = combined_data[combined_data['BJDONG_NM'] == '화곡동']
-
 
 # HTML 태그 제거 함수
 def remove_html_tags(text):

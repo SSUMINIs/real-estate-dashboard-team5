@@ -4,11 +4,12 @@ import os
 
 # 크롤링 함수 정의
 def get_news_data(query, max_results=3):
+    # .env 파일에서 환경 변수 로드
     load_dotenv()
 
-    # 임시 하드코딩된 클라이언트 ID와 클라이언트 시크릿 사용
-    client_id = "OwearAQmAQTwgoPJ_ONT"
-    client_secret = "e2nj2FiBR_"
+    # 환경 변수에서 클라이언트 ID와 클라이언트 시크릿 불러오기
+    client_id = os.getenv('client_id')
+    client_secret = os.getenv('client_secret')
     
     url = "https://openapi.naver.com/v1/search/news.json"
     headers = {
