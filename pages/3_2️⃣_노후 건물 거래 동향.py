@@ -92,37 +92,6 @@ else:
     )
     st.plotly_chart(fig)
 
-
-# 노후 밀집도가 높은 3개 지역 구하기
-old_buildings['DISTRICT'] = old_buildings['SGG_NM'] + ' ' + old_buildings['BJDONG_NM']
-building_counts_by_district = old_buildings.groupby('DISTRICT').size().reset_index(name='OLD_BUILDING_COUNT')
-top3_districts = building_counts_by_district.nlargest(3, 'OLD_BUILDING_COUNT')
-
-# 시각화
-fig = px.bar(
-    top3_districts, 
-    x='DISTRICT', 
-    y='OLD_BUILDING_COUNT', 
-    text='OLD_BUILDING_COUNT',
-    title='노후 건물이 밀집한 상위 3개 지역', 
-    labels={'OLD_BUILDING_COUNT': '노후 건물 수', 'DISTRICT': '지역'},
-    color='DISTRICT'
-)
-st.plotly_chart(fig)
-
-
 # 크롤링 함수 불러오기
 from api import get_news_data
-
-# 관련 정보 가져오기 버튼
-if st.button("관련 정보 가져오기"):
-    for district in top3_districts['DISTRICT']:
-        news_data = get_news_data(district)
-        if news_data:
-            st.subheader(f"{district} 관련 뉴스")
-            for item in news_data:
-                st.markdown(f"[{item['title']}]({item['link']})")
-        else:
-            st.write(f"{district}에 대한 뉴스를 가져오는 데 실패했습니다.")
-
     
