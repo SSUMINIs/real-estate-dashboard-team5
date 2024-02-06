@@ -2,18 +2,19 @@
 
 ### 프로젝트 소개
 - 서울시 재개발 부지 예상되는 지역 선정
+---
 
 ### 팀원 소개
 1. [hyelin606](https://github.com/hyelin606)
 2. [jianteow](https://github.com/jianteow)
 3. [JiHoonYoon00](https://github.com/JiHoonYoon00)
 4. [SSUMINIs](https://github.com/SSUMINIs)
-
+---
 ### 데이터셋 출처
 - 서울시 공공데이터
-
+---
 ### 데이터 설명
-
+---
 ### 구조
 ```
 ├── .devcontainer # 개발 환경 컨테이너 설정
@@ -42,12 +43,12 @@
 ├── .gitignore # Git에서 추적하지 않을 파일 목록
 └── README.md # 프로젝트 설명 파일
 ```
-
+---
 ### 기술 스택
 - **Streamlit** : 배포 및 대시보드 개발
 - **Naver NewsAPI** : 네이버 뉴스 정보 크롤링
 - **QGIS** : 지리정보 활용 (v3.34.3)
-
+---
 ### 라이브러리 소개
 requirement.txt
 - **pandas** : 
@@ -56,11 +57,21 @@ requirement.txt
 - **pydeck** : 
 - **numpy** : 
 - **dotenv** :
-
-
+---
 ### 서비스 다이어그램
-아래는 서비스 아키텍처를 보여주는 다이어그램입니다.
-![real-estate-dashboard](./서비스 다이어그램.png)
+- 아래는 서비스 아키텍처를 보여주는 다이어그램입니다.
+<img src="https://github.com/Kimtae00/real-estate-dashboard-team5/blob/main/%EC%84%9C%EB%B9%84%EC%8A%A4%20%EB%8B%A4%EC%9D%B4%EC%96%B4%EA%B7%B8%EB%9E%A8.png"/>
 
+---
 ### Naver Open Search API
 아래는 Open Search API가 호출되는 로직입니다.
+
+
+
+
+---
+<p align="center">
+   <img src="https://img.shields.io/badge/language-python-blue?style"/>
+   <img src="https://img.shields.io/badge/library-streamlit-red?style"/>
+   <img src="https://img.shields.io/github/license/maxam2017/productive-box"/>
+</p>
