@@ -14,7 +14,6 @@ st.set_page_config(
 from st_pages import Page, show_pages, add_page_title
 
 # Optional -- adds the title and icon to the current page
-add_page_title()
 
 # Specify what pages should be shown in the sidebar, and what their titles 
 # and icons should be
@@ -30,5 +29,8 @@ show_pages(
 
 st.header('Readme 작성 !')
 
-# 깃허브 이미지
-st.sidebar.markdown("[![Github](https://simpleicons.org/icons/github.svg)](https://github.com/Kimtae00/real-estate-dashboard-team5)")
+st.sidebar.markdown("""
+    <a href="https://github.com/Kimtae00/real-estate-dashboard-team5">
+        <img src="https://simpleicons.org/icons/github.svg" width="25" height="25" />
+    </a>
+""", unsafe_allow_html=True)
