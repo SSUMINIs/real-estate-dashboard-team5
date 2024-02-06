@@ -17,11 +17,6 @@ selected_house_types = st.multiselect(
 
 data = pd.concat([pd.read_csv(f'data/{house_type}.csv') for house_type in selected_house_types])
 
-
-
-# 사용자 입력을 통한 데이터 선택
-#selected_SGG = st.selectbox('구를 선택해주세요:', data2['SGG_NM'].unique())
-#selected_index = st.selectbox('동을 선택해주세요:', data2.loc[data2['SGG_NM'] == selected_SGG, 'BJDONG_NM'].unique())
 # 선택한 구와 동을 사이드바에서 선택
 selected_SGG = st.sidebar.selectbox('구 선택', data['SGG_NM'].unique())
 selected_index = st.sidebar.selectbox(
@@ -44,7 +39,7 @@ for house_type in selected_house_types:
 # 그래프 레이아웃 설정
 fig.update_layout(
     title=f'{", ".join(selected_house_types)}의 {selected_SGG}, {selected_index} 지역 1평당 평균 가격',
-    xaxis_title='House Type',
+    xaxis_title='건물 유형',
     yaxis_title='1평당 평균 가격'
 )
 
@@ -53,7 +48,7 @@ st.plotly_chart(fig)
 
 option = st.selectbox(
     '건물 유형 선택',('아파트', '단독다가구', '오피스텔', '연립다세대')
-    )
+)
 
 data2 = pd.read_csv(f'data/{option}.csv')
 
@@ -92,10 +87,24 @@ st.pydeck_chart(pdk.Deck(
     ],
 ))
 
-
 # 고른 자료 표시 
-st.write(data2[data2['BJDONG_NM'] == selected_index])
+selected_data = data2[data2['BJDONG_NM'] == selected_index]
 
+# 필드명 한글로 변경
+selected_data = selected_data.rename(columns={
+    'HOUSE_TYPE': '건물유형',
+    'PRICE_PER': '평균 평당가격',
+    'BJDONG_NM': '법정동 명',
+    'SGG_NM': '구 명',
+    'CENTER_LONG': '경도',
+    'CENTER_LATI': '위도'
+})
+
+# 평균 평당가격을 반올림하여 정수로 변환하고 '만원' 단위 붙이기
+selected_data['평균 평당가격'] = selected_data['평균 평당가격'].round(0).astype(int).astype(str) + "만원"
+
+# 테이블로 표시
+st.dataframe(selected_data)
 
 
 

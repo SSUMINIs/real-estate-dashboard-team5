@@ -6,6 +6,5 @@ geopandas
 matplotlib
 streamlit_option_menu
 st_pages
+python-dotenv
 
-# 크롤링
-# dotenv

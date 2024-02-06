@@ -1,7 +1,7 @@
 import streamlit as st
 
 st.set_page_config(
-  layout="wide",  # 더 많은 공간을 위한 넓은 레이아웃 설정
+  layout="wide",  
 )
 
 # 아이콘을 포함한 페이지 링크 생성
@@ -10,7 +10,7 @@ st.page_link("pages/2_1️⃣_노후 건물 분포도.py", label="노후 건물 
 st.page_link("pages/3_2️⃣_노후 건물 거래 동향.py", label="노후 건물 거래 동향", icon="2️⃣")
 st.page_link("pages/4_3️⃣_노후 건물 평당 가격.py", label="노후 건물 평당 가격", icon="3️⃣")
 st.page_link("pages/5_4️⃣_관련 정보 가져오기.py", label="관련 기사 가져오기", icon="4️⃣")
-st.page_link("https://github.com/Kimtae00/real-estate-dashboard-team5", label="Github", icon="🚀")
+st.page_link("https://github.com/Kimtae00/real-estate-dashboard-team5?tab=readme-ov-file", label="Github", icon="🚀")
 
 # Optional -- adds the title and icon to the current page
 

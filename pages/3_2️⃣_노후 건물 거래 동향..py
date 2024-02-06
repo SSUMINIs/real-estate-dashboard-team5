@@ -86,7 +86,7 @@ else:
         x='DISTRICT',
         y='TRANSACTION_COUNT',
         text='TRANSACTION_COUNT',
-        title='노후 건물 거래량이 가장 많은 상위 10개 지역',
+        title='노후 건물 거래량 상위 10개 지역',
         labels={'DISTRICT': '지역', 'TRANSACTION_COUNT': '노후 건물 거래량'},
         color='DISTRICT'
     )
