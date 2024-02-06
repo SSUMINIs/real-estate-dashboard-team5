@@ -8,4 +8,4 @@ streamlit_option_menu
 st_pages
 
 # 크롤링
-dotenv
+# dotenv
