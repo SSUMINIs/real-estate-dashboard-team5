@@ -140,26 +140,29 @@ fig.update_layout(
         width=1200,
         height=500,
         bargroupgap=bargroupgap_value 
-        )
+    )
     
 st.plotly_chart(fig)
 
 # 20년 이상, 구>동 건물개수 상위 10개
 st.header("노후 건물 개수 상위 10개 지역")
 district_age_data = unique_combin.groupby(['SGG_NM', 'BJDONG_NM','Age Category']).size().reset_index(name='Count')
-dong_10 = district_age_data.loc[district_age_data['Age Category']=='20년 이상'].sort_values('Count', ascending=False).reset_index(drop=True)
+
+# '20년 이상' 필터링 및 내림차순 정렬
+dong_10 = district_age_data[district_age_data['Age Category'] == '20년 이상'].nlargest(10, 'Count')
+
+# 'Name' 열 추가
 dong_10['Name'] = dong_10['SGG_NM'] + ' ' + dong_10['BJDONG_NM']
+
 # 시각화
 fig = px.bar(
-    dong_10.head(10),
+    dong_10,  # 수정된 데이터프레임 사용
     x="Name", 
     y="Count", 
     color='SGG_NM', 
     labels={'Name': '지역', 'Count': '노후 건물수', 'SGG_NM' : '지역'},
     width=1200,
-    height=500,
-    #color_discrete_sequence=px.colors.sequential.Inferno
+    height=500
 )
 
-# Streamlit에서 그래프 표시
 st.plotly_chart(fig)

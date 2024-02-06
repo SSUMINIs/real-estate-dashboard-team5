@@ -19,24 +19,31 @@ data_unique = data.drop_duplicates(subset='unique_id')
 current_year = 2024
 
 # '20년 이상', '20년 미만' 범주화
+data['Age Category'] = data['BUILD_YEAR'].apply(lambda x: '20년 이상' if current_year - x >= 20 else '20년 미만')
 data_unique['Age Category'] = data_unique['BUILD_YEAR'].apply(lambda x: '20년 이상' if current_year - x >= 20 else '20년 미만')
 
 # 20년 이상 된 건물만 필터링
 old_buildings = data_unique[data_unique['Age Category'] == '20년 이상']
 
-# 건물 유형별 및 구별 거래량 계산
-transaction_by_type_and_district = old_buildings.groupby(['SGG_NM', 'HOUSE_TYPE']).size().reset_index(name='TRANSACTION_COUNT')
+# 20년 이상된 건물의 거래만 고려
+old_transactions = data[data['Age Category'] == '20년 이상']
+
+# 구별 거래량 계산 (DEAL_YMD 포함하지 않음)
+transactions_by_district = old_transactions.groupby('SGG_NM').size().reset_index(name='TRANSACTION_COUNT')
+
+# 거래량을 기준으로 내림차순 정렬
+transactions_by_district_sorted = transactions_by_district.sort_values(by='TRANSACTION_COUNT', ascending=False)
 
 # 시각화
 fig = px.bar(
-    transaction_by_type_and_district, 
+    transactions_by_district_sorted, 
     x="SGG_NM", 
     y="TRANSACTION_COUNT", 
-    color="HOUSE_TYPE", 
-    title="서울시 구별 건물 유형별 거래량", 
-    labels={'SGG_NM': '구', 'TRANSACTION_COUNT': '거래량', 'HOUSE_TYPE': '건물 유형'}
+    title="서울시 구별 노후 건물 거래량", 
+    labels={'SGG_NM': '구', 'TRANSACTION_COUNT': '거래량'},
 )
 st.plotly_chart(fig)
+
 
 # 사이드바에서 구 선택
 selected_district = st.sidebar.selectbox("구 선택", ['전체'] + list(old_buildings['SGG_NM'].unique()))
@@ -79,6 +86,23 @@ else:
     )
 st.plotly_chart(fig)
 
+# 노후 밀집도가 높은 10개 지역 구하기
+old_buildings['DISTRICT'] = old_buildings['SGG_NM'] + ' ' + old_buildings['BJDONG_NM']
+building_counts_by_district = old_buildings.groupby('DISTRICT').size().reset_index(name='OLD_BUILDING_COUNT')
+top10_districts = building_counts_by_district.nlargest(10, 'OLD_BUILDING_COUNT')
+
+# 시각화
+fig = px.bar(
+    top10_districts, 
+    x='DISTRICT', 
+    y='OLD_BUILDING_COUNT', 
+    text='OLD_BUILDING_COUNT',
+    title='노후 건물이 밀집한 상위 10개 지역', 
+    labels={'OLD_BUILDING_COUNT': '노후 건물 수', 'DISTRICT': '지역'},
+    color='DISTRICT'
+)
+st.plotly_chart(fig)
+
 # 노후 밀집도가 높은 3개 지역 구하기
 old_buildings['DISTRICT'] = old_buildings['SGG_NM'] + ' ' + old_buildings['BJDONG_NM']
 building_counts_by_district = old_buildings.groupby('DISTRICT').size().reset_index(name='OLD_BUILDING_COUNT')
@@ -90,11 +114,12 @@ fig = px.bar(
     x='DISTRICT', 
     y='OLD_BUILDING_COUNT', 
     text='OLD_BUILDING_COUNT',
-    title='노후 건물이 밀집한 상위 3개 지역', 
+    title='노후 건물이 밀집한 상위 10개 지역', 
     labels={'OLD_BUILDING_COUNT': '노후 건물 수', 'DISTRICT': '지역'},
     color='DISTRICT'
 )
 st.plotly_chart(fig)
+
 
 # 크롤링 함수 불러오기
 from api import get_news_data

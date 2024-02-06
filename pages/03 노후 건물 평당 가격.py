@@ -13,7 +13,7 @@ selected_house_types = st.multiselect(
     '건물 유형 선택',
     ['아파트', '단독다가구', '오피스텔', '연립다세대'],
     default=['아파트', '단독다가구', '오피스텔', '연립다세대']
-  )  
+)  
 
 data = pd.concat([pd.read_csv(f'data/{house_type}.csv') for house_type in selected_house_types])
 
