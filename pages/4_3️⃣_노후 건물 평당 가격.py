@@ -5,9 +5,9 @@ import numpy as np
 import plotly.subplots as sp
 import plotly.graph_objects as go
 
+st.set_page_config(layout="wide")
 
 # header
-
 
 selected_house_types = st.multiselect(
     '건물 유형 선택',
@@ -104,7 +104,7 @@ selected_data = selected_data.rename(columns={
 selected_data['평균 평당가격'] = selected_data['평균 평당가격'].round(0).astype(int).astype(str) + "만원"
 
 # 테이블로 표시
-st.dataframe(selected_data)
+st.table(selected_data)
 
 
 

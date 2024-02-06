@@ -3,6 +3,8 @@ import streamlit as st
 import re
 from crawling import get_news_data
 
+st.set_page_config(layout="wide")
+
 data_danlist = pd.read_csv('data/단독다가구.csv')
 data_yeonlist = pd.read_csv('data/연립다세대.csv')
 
@@ -36,10 +38,10 @@ filtered_data = filtered_data.rename(columns={
 filtered_data['평균 평당가격'] = filtered_data['평균 평당가격'].round(0).astype(int).astype(str) + "만원"
 
 # 테이블로 표시
-st.dataframe(filtered_data)
+st.table(filtered_data)
 
 st.markdown('#### 세번째 근거 이미지')
-st.image('images/재개발 선정 지역.png', caption='재개발 선정 지역', width=800)
+st.image('images/재개발 선정 지역.png', caption='재개발 선정 지역', width=880)
 
 # 버튼을 사용하여 뉴스 정보 로드
 if st.button("관련 정보 가져오기"):
