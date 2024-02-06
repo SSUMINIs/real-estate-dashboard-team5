@@ -5,6 +5,5 @@ numpy
 geopandas
 matplotlib
 streamlit_option_menu
-st_pages
 python-dotenv
 

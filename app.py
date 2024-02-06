@@ -12,21 +12,6 @@ st.page_link("pages/4_3️⃣_노후 건물 평당 가격.py", label="노후 건
 st.page_link("pages/5_4️⃣_관련 정보 가져오기.py", label="관련 기사 가져오기", icon="4️⃣")
 st.page_link("https://github.com/Kimtae00/real-estate-dashboard-team5?tab=readme-ov-file", label="Github", icon="🚀")
 
-# Optional -- adds the title and icon to the current page
-
-# Specify what pages should be shown in the sidebar, and what their titles 
-# and icons should be
-# show_pages(
-#     [
-#         Page("app.py", "real estate project team5", "🏢"),
-#         # Page("pages/1_👋_Hi There.py", "Hi There"),
-#         Page("pages/2_app.py", "노후 건물 분포도", "1️⃣"),
-#         Page("pages/3_app.py", "노후 건물 거래 동향", "2️⃣"),
-#         Page("pages/4_app.py", "노후 건물 평당 가격", "3️⃣"),
-#         # Page("pages/5_4️⃣_관련 정보 가져오기.py", "관련 기사 가져오기", "4️⃣"),        
-#     ]
-# )
-
 st.header('Readme 작성 !')
 
 st.sidebar.markdown("""
