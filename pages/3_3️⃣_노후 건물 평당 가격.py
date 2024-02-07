@@ -9,6 +9,7 @@ import plotly.graph_objects as go
 st.set_page_config(layout="wide")
 
 # header
+st.header('노후 건물 평당 가격')
 
 selected_house_types = st.multiselect(
     '건물 유형 선택',
@@ -41,7 +42,9 @@ for house_type in selected_house_types:
 fig.update_layout(
     title=f'{", ".join(selected_house_types)}의 {selected_SGG}, {selected_index} 지역 1평당 평균 가격',
     xaxis_title='건물 유형',
-    yaxis_title='1평당 평균 가격'
+    yaxis_title='1평당 평균 가격',
+    width=1100,
+    height=500
 )
 
 # 차트를 화면에 표시

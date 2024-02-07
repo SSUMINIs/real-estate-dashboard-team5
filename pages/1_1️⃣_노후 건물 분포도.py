@@ -23,7 +23,7 @@ data['Age Category'] = data['Building Age'].apply(lambda x: '20년 이상' if x 
 unique_combin = data.drop_duplicates(subset=['SGG_CD', 'BJDONG_CD','BLDG_NM','BUILD_YEAR'],keep='first').copy()
 unique_combin = unique_combin.reset_index(drop=True)
 
-st.header("노후건물(20년이상) 평균 건축년도 및 표준편차")
+st.header("노후건물 평균 건축년도 및 표준편차")
 
 #서울시 위치 가져오기
 tab1_df20 = unique_combin[unique_combin['Age Category']=='20년 이상'].copy()
@@ -44,10 +44,20 @@ tab1_data = tab1_df1.explode(index_parts=True).reset_index(drop=True)
 
 with open('data/seoul.geojson', encoding='UTF-8') as f:
     gpd_data = json.load(f)
-    fig = px.choropleth_mapbox(tab1_data, geojson = gpd_data, locations='SIG_KOR_NM', color = 'mean',
-                            color_continuous_scale="reds", featureidkey = 'properties.SIG_KOR_NM', #YlOrRd
-                            mapbox_style="carto-positron", zoom=9.5, center = {'lat':37.563383, 'lon':126.996039}, #open-street-map ,carto-positron,white-bg
-                            opacity=0.5, labels={'meand':'서울시 노후건물 분포도(년)'},custom_data=['std'])
+    fig = px.choropleth_mapbox(
+        tab1_data, 
+        geojson = gpd_data, 
+        locations='SIG_KOR_NM', 
+        color = 'mean',
+        color_continuous_scale="reds", 
+        featureidkey = 'properties.SIG_KOR_NM', #YlOrRd
+        mapbox_style="carto-positron", 
+        zoom=9.5, 
+        center = {'lat':37.563383, 'lon':126.996039}, #open-street-map ,carto-positron,white-bg
+        opacity=0.5, 
+        labels={'meand':'서울시 노후건물 분포도(년)'},
+        custom_data=['std']
+    )
 
     fig.update_layout(margin={"r":0,"t":30,"l":0,"b":0},width=1200)
     fig.update_traces(hovertemplate='<b>%{location}</b><br>노후 건물 평균 년도: %{z:,.0f}(년)<br>표준편차: %{customdata:,.0f}')
@@ -66,9 +76,11 @@ fig_mean = px.bar(
         labels={'SGG_NM': '서울시 구', 'mean': '평균 노후정도'},
         width=1100,
         height=500
-    )
-fig_mean.update_traces(marker_color='darkgrey')
+)
 
+fig_mean.update_traces(marker_color='darkgrey')
+fig_mean.update_xaxes(categoryorder='total descending')
+fig_mean.update_layout(hovermode='x unified', yaxis_tickformat=".0f")
 st.plotly_chart(fig_mean)
 
 fig_std = px.bar(
@@ -76,11 +88,13 @@ fig_std = px.bar(
         x='SGG_NM',
         y='std',
         title='구별 평균 건축년도 표준편차',
-        labels={'SGG_NM': '서울시 구', 'mean': '표준편차'},
+        labels={'SGG_NM': '서울시 구', 'std': '표준편차'},
         width=1100,
         height=500
-    )
+)
 fig_std.update_traces(marker_color='brown') #burlywood chocolate, coral, cornflowerblue, cornsi
+fig_std.update_layout(hovermode='x unified', yaxis_tickformat=".0f")
+fig_std.update_xaxes(categoryorder='total descending')
 st.plotly_chart(fig_std)
 
 # 구별로 데이터를 집계
@@ -92,7 +106,7 @@ selected_gu_option = st.sidebar.selectbox("구 선택", district_options)
 
 if selected_gu_option == '전체':
     filtered_data = district_age_data
-    st.header("서울시 전체 건물년도 비교(개수)")
+    st.header("서울시 전체 건물개수")
     x_value = 'SGG_NM'
     y_value = filtered_data.groupby(['SGG_NM','Age Category'])['Count'].sum().reset_index() 
     bargroupgap_value = 0.1
@@ -103,7 +117,7 @@ else:
     
     if selected_dong_option == '전체':
         filtered_data = district_age_data[district_age_data['SGG_NM'] == selected_gu_option]
-        st.header(f"{selected_gu_option} 전체 동 건물년도 비교(개수)")
+        st.header(f"{selected_gu_option} 전체 동 건물개수")
         x_value = 'BJDONG_NM'
         y_value = filtered_data[(filtered_data['SGG_NM'] == selected_gu_option)].groupby(['SGG_NM', 'BJDONG_NM', 'Age Category'])['Count'].sum().reset_index()
         bargroupgap_value = 0.1
@@ -114,7 +128,7 @@ else:
             return filtered_data
         # 데이터 로드
         filtered_data = load_data(selected_gu_option, selected_dong_option)
-        st.header(f"{selected_gu_option} {selected_dong_option} 건물년도 비교(개수)")
+        st.header(f"{selected_gu_option} {selected_dong_option} 건물개수")
         x_value = 'BJDONG_NM'
         y_value = filtered_data.groupby(['SGG_NM','BJDONG_NM','Age Category'])['Count'].sum().reset_index() 
         bargroupgap_value = 0.5
@@ -127,20 +141,18 @@ fig = px.bar(
         color='Age Category',
         labels={'Count': '건물 수', x_value: '서울시 동' if selected_gu_option != '전체' else '서울시 구', 'Age Category': '노후 정도'},
         barmode='group'
-        )
+)
 
 # 그래프 레이아웃 설정
 fig.update_layout(
         xaxis_title=f'{selected_gu_option if selected_gu_option != "전체" else "서울시 구"}',
         yaxis_title='건물 수',
-        plot_bgcolor='white',
         xaxis={'categoryorder':'total descending'},
         legend_title_text='노후 정도',
         width=1200,
         height=500,
         bargroupgap=bargroupgap_value 
-    )
-    
+)
 st.plotly_chart(fig)
 
 # 20년 이상, 구>동 건물개수 상위 10개
@@ -152,6 +164,8 @@ dong_10 = district_age_data[district_age_data['Age Category'] == '20년 이상']
 
 # 'Name' 열 추가
 dong_10['Name'] = dong_10['SGG_NM'] + ' ' + dong_10['BJDONG_NM']
+
+
 
 # 시각화
 fig = px.bar(

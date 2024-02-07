@@ -44,7 +44,9 @@ fig = px.bar(
     color="HOUSE_TYPE",
     title="서울시 건물유형별 노후 건물 거래량",
     labels={'SGG_NM': '구', 'TRANSACTION_COUNT': '거래량', 'HOUSE_TYPE': '건물 유형'},
-    barmode='stack'
+    barmode='stack',
+    width=1100,
+    height=500
 )
 st.plotly_chart(fig)
 
@@ -74,7 +76,9 @@ if selected_district != '노후 건물 거래량 상위 10개 지역':
         text='TRANSACTION_COUNT',
         title=f'{selected_district} 지역 별 노후 건물 거래량',
         labels={'DISTRICT': '지역', 'TRANSACTION_COUNT': '노후 건물 거래량'},
-        color='DISTRICT'
+        color='DISTRICT',
+        width=1100,
+        height=500
     )
     st.plotly_chart(fig)
 else:
@@ -90,10 +94,9 @@ else:
         text='TRANSACTION_COUNT',
         title='노후 건물 거래량 상위 10개 지역',
         labels={'DISTRICT': '지역', 'TRANSACTION_COUNT': '노후 건물 거래량'},
-        color='DISTRICT'
+        color='DISTRICT',
+        width=1100,
+        height=500
     )
     st.plotly_chart(fig)
-
-# 크롤링 함수 불러오기
-# from api import get_news_data
     
