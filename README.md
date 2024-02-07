@@ -91,7 +91,8 @@
 ---
 ### Naver Open Search API
 아래는 Open Search API가 호출되는 로직입니다.
-<img src="https://github.com/Kimtae00/real-estate-dashboard-team5/blob/main/images/Open%20Search%20API.png"/>
+#### Concise API Invocation Diagram
+<img src="https://github.com/Kimtae00/real-estate-dashboard-team5/blob/main/images/API%20%ED%98%B8%EC%B6%9C.png"/>
 
 ---
 <p align="center">
