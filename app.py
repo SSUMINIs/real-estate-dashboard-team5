@@ -53,7 +53,6 @@ st.markdown("- HOUSE_TYPE : 건물용도")
 st.markdown("- CENTER_LONG : 법정동 기준 경도")
 st.markdown("- CENTER_LATI : 법정동 기준 위도")
 st.markdown("- PRICE_PER : 평당 가격 (만원)")
-
 st.markdown("---")
 
 st.markdown("## 구조")
@@ -86,14 +85,12 @@ st.code('''
 ├── requirements.txt # 필요한 파이썬 패키지 목록
 └── README.md # 프로젝트 설명 파일
 ''')
-
 st.markdown("---")
 
 st.markdown("## 기술 스택")
 st.markdown("- **Streamlit** : 배포 및 대시보드 개발")
 st.markdown("- **Naver Open Search API** : 네이버 뉴스 정보 크롤링")
 st.markdown("- **QGIS** : 지리정보 활용 (v3.34.3)")
-
 st.markdown("---")
 
 st.markdown("## 라이브러리 소개(requirements.txt)")
@@ -111,19 +108,16 @@ st.markdown("##### 크롤링 환경변수 설정")
 st.markdown("- **python-dotenv==1.0.1**")
 st.markdown("##### streamlit 페이지 처리")
 st.markdown("- **st_pages**")
-
 st.markdown("---")
 
 st.markdown("## 서비스 다이어그램")
 st.markdown("아래는 서비스 아키텍처를 보여주는 다이어그램입니다.")
-st.image("./서비스 다이어그램.png", use_column_width=True)
-
+st.image("images/서비스 다이어그램.png", use_column_width=True)
 st.markdown("---")
 
 st.markdown("## Naver Open Search API")
 st.markdown("아래는 Open Search API가 호출되는 로직입니다.")
-st.image("./서비스 다이어그램.png", use_column_width=True)
-
+st.image("images/Open Search API.png", use_column_width=True)
 st.markdown("---")
 
 st.markdown('<p align="center"><img src="https://img.shields.io/badge/language-python-blue?style"/> <img src="https://img.shields.io/badge/library-streamlit-red?style"/> <img src="https://img.shields.io/github/license/maxam2017/productive-box"/></p>', unsafe_allow_html=True)
