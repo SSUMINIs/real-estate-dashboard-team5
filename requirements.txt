@@ -6,4 +6,4 @@ geopandas==0.14.3
 matplotlib==3.8.2
 python-dotenv==1.0.1
 pydeck==0.8.1b
-st_pages==0.4.5
+st_pages
