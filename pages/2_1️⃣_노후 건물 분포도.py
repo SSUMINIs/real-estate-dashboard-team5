@@ -8,7 +8,6 @@ import geopandas as gpd
 import json
 import numpy as np
 import pydeck as pdk
-from streamlit_option_menu import option_menu
 
 st.set_page_config(layout="wide")
 

@@ -7,4 +7,3 @@ matplotlib
 python-dotenv
 st_pages
 pydeck
-streamlit_option_menu
