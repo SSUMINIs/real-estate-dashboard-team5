@@ -1,30 +1,6 @@
 import streamlit as st
-import numpy as np
-import pydeck as pdk
-import plotly.graph_objects as go
-import plotly.express as px
-import matplotlib.pyplot as plt
-import geopandas as gpd
 from st_pages import Page, show_pages
 
-# Streamlit 버전 출력
-st.write("Streamlit 버전:", st.__version__)
-
-# NumPy 버전 출력
-st.write("NumPy 버전:", np.__version__)
-
-# PyDeck 버전 출력
-st.write("PyDeck 버전:", pdk.__version__)
-
-# Plotly 버전 출력
-st.write("Plotly 버전 (graph_objects):", go.__version__)
-st.write("Plotly 버전 (express):", px.__version__)
-
-# Matplotlib 버전 출력
-st.write("Matplotlib 버전:", plt.__version__)
-
-# GeoPandas 버전 출력
-st.write("GeoPandas 버전:", gpd.__version__)
 
 st.set_page_config(page_title="🏢 Real Estate Project Team5️⃣",layout="wide")
 
