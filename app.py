@@ -73,6 +73,7 @@ st.code('''
 ├── images # 이미지 폴더
 │ ├── 재개발 선정 지역.png
 │ ├── 서비스 다이어그램.png
+│ ├── Open Search API.png
 │ ├── API 호출.png
 │ 
 ├── pages # 스트림릿 페이지 파일
