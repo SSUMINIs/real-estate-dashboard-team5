@@ -3,16 +3,24 @@
 ### 프로젝트 소개
 - 본 프로젝트는 서울시의 2022년과 2023년 부동산 거래 데이터와 법정동 좌표를 활용하여 재개발이 예상되는 지역을 식별합니다. 이를 통해 식별된 지역을 분석하고 Naver Open Search API를 활용하여 관련된 뉴스 기사를 수집하여 예측 결과를 더 깊이 분석할 수 있도록 구현해보았습니다.
 ---
+### 프로젝트 기간
+- 2024년02월02일 ~ 2024년2월08일까지 진행한 미니 프로젝트 입니다.
+<img src="https://github.com/Kimtae00/real-estate-dashboard-team5/blob/main/images/WBS.png"/>
+
+---
 ### 팀원 소개
 1. [hyelin606](https://github.com/hyelin606)
 2. [jianteow](https://github.com/jianteow)
 3. [JiHoonYoon00](https://github.com/JiHoonYoon00)
 4. [SSUMINIs](https://github.com/SSUMINIs)
+5. [Vamos00](https://github.com/Kimtae00)
 ---
 ### 데이터셋 출처
-- [서울시 부동산 실거래가 정보](https://data.seoul.go.kr/dataList/OA-21275/S/1/datasetView.do)
+- Seoul_data.csv : [서울시 부동산 실거래가 정보](https://data.seoul.go.kr/dataList/OA-21275/S/1/datasetView.do)
+- seoul_sig_cd.geojson : [SVG 지리정보](http://www.gisdeveloper.co.kr/?p=2332)
 - [전국 법정동 좌표](https://herjh0405.tistory.com/156)
-- [SVG 지리정보](http://www.gisdeveloper.co.kr/?p=2332)
+####
+      위 데이터셋을 바탕으로 데이터 전처리를 하여 분석에 필요한 추가적인 파일을 생성하여 데이터를 사용하였습니다.
 ---
 ### Seoul_data.csv 주요 칼럼
 - ACC_YEAR: 접수년도
