@@ -1,7 +1,6 @@
 import streamlit as st
 from st_pages import Page, show_pages
 
-
 st.set_page_config(page_title="🏢 Real Estate Project Team5️⃣",layout="wide")
 
 # Page("app.py", "🏢 Real Estate Project Team5️⃣")
@@ -25,7 +24,7 @@ st.title("real-estate-dashboard 프로젝트 소개")
 st.markdown("본 프로젝트는 서울시의 2022년과 2023년 부동산 거래 데이터와 법정동 좌표를 활용하여 재개발이 예상되는 지역을 식별하고, Naver Open Search API를 활용하여 관련된 뉴스 기사를 수집하여 예측 결과를 예측 결과를 더 깊이 분석할 수 있도록 구현해보았습니다.")
 st.markdown("---")
 
-st.title("프로젝트 기간")
+st.markdown("## 프로젝트 기간")
 st.markdown(
     "2024년02월02일 ~ 2024년2월08일까지 진행한 미니 프로젝트 입니다."
     )
@@ -37,13 +36,14 @@ st.markdown("1. [hyelin606](https://github.com/hyelin606)")
 st.markdown("2. [jianteow](https://github.com/jianteow)")
 st.markdown("3. [JiHoonYoon00](https://github.com/JiHoonYoon00)")
 st.markdown("4. [SSUMINIs](https://github.com/SSUMINIs)")
-st.markdown("5. [Kimtae00](https://github.com/Kimtae00)")
+st.markdown("5. [Vamos00](https://github.com/Kimtae00)")
 st.markdown("---")
 
 st.markdown("## 데이터셋 출처")
-st.markdown("- [서울시 부동산 실거래가 정보](https://data.seoul.go.kr/dataList/OA-21275/S/1/datasetView.do)")
+st.markdown("- Seoul_data.csv : [서울시 부동산 실거래가 정보](https://data.seoul.go.kr/dataList/OA-21275/S/1/datasetView.do)")
+st.markdown("- seoul_sig_cd.geojson : [SVG 지리정보](http://www.gisdeveloper.co.kr/?p=2332)")
 st.markdown("- [전국 법정동 좌표](https://herjh0405.tistory.com/156)")
-st.markdown("- [SVG 지리정보](http://www.gisdeveloper.co.kr/?p=2332)")
+st.markdown("###### 위 데이터셋을 바탕으로 데이터 전처리를 하여 분석에 필요한 추가적인 파일을 생성하여 데이터를 사용하였습니다.")
 st.markdown("---")
 
 st.markdown("## Seoul_data.csv 주요 칼럼")
