@@ -86,7 +86,7 @@
 ---
 ### 서비스 다이어그램
 - 아래는 서비스 아키텍처를 보여주는 다이어그램입니다.
-<img src="https://github.com/Kimtae00/real-estate-dashboard-team5/blob/main/%EC%84%9C%EB%B9%84%EC%8A%A4%20%EB%8B%A4%EC%9D%B4%EC%96%B4%EA%B7%B8%EB%9E%A8.png"/>
+<img src="https://github.com/Kimtae00/real-estate-dashboard-team5/blob/main/images/%EC%84%9C%EB%B9%84%EC%8A%A4%20%EB%8B%A4%EC%9D%B4%EC%96%B4%EA%B7%B8%EB%9E%A8.png"/>
 
 ---
 ### Naver Open Search API
