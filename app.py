@@ -73,7 +73,7 @@ st.code('''
 ├── images # 이미지 폴더
 │ ├── 재개발 선정 지역.png
 │ ├── 서비스 다이어그램.png
-│ ├── Open Search API.png
+│ ├── API 호출.png
 │ 
 ├── pages # 스트림릿 페이지 파일
 │ ├── 1_1️⃣_노후 건물 분포도.py # 노후 건물 분포도 페이지
@@ -119,7 +119,8 @@ st.markdown("---")
 
 st.markdown("## Naver Open Search API")
 st.markdown("아래는 Open Search API가 호출되는 로직입니다.")
-st.image("images/Open Search API.png", use_column_width=True)
+st.markdown("##### Concise API Invocation Diagram")
+st.image("images/API 호출.png", use_column_width=True)
 st.markdown("---")
 
 st.markdown('<p align="center"><img src="https://img.shields.io/badge/language-python-blue?style"/> <img src="https://img.shields.io/badge/library-streamlit-red?style"/> <img src="https://img.shields.io/github/license/maxam2017/productive-box"/></p>', unsafe_allow_html=True)

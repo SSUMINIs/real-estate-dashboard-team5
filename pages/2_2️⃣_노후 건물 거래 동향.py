@@ -48,6 +48,7 @@ fig = px.bar(
     width=1100,
     height=500
 )
+fig.update_xaxes(categoryorder='total descending')
 st.plotly_chart(fig)
 
 # 'DISTRICT' 열 생성
