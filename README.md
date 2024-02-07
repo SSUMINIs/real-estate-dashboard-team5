@@ -45,9 +45,11 @@
 │ ├── seoul_sig_cd.geojson # 서울시 구역별 지도 데이터
 │ └── seoul.geojson # 서울시 지리 데이터
 │ 
-├── images # 분석에 사용되는 이미지
+├── images # 이미지 폴더
 │ ├── 재개발 선정 지역.png
-│ 
+│ ├── 서비스 다이어그램.png
+│ ├── Open Search API.png
+│  
 ├── pages # 스트림릿 페이지 파일
 │ ├── 1_1️⃣_노후 건물 분포도.py # 노후 건물 분포도 페이지
 │ ├── 2_2️⃣_노후 건물 거래 동향.py # 노후 건물 거래 동향 페이지
@@ -89,9 +91,7 @@
 ---
 ### Naver Open Search API
 아래는 Open Search API가 호출되는 로직입니다.
-
-
-
+<img src="https://github.com/Kimtae00/real-estate-dashboard-team5/blob/main/images/Open%20Search%20API.png"/>
 
 ---
 <p align="center">
