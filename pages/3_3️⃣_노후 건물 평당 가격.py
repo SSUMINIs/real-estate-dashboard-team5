@@ -36,7 +36,14 @@ for house_type in selected_house_types:
     average_price_per = filtered_data['PRICE_PER'].mean()
 
     # 막대 그래프에 추가
-    fig.add_trace(go.Bar(x=[f"{house_type} 평균 가격"], y=[average_price_per], name=house_type))
+    fig.add_trace(go.Bar(
+        x=[f"{house_type} 평균 가격"], 
+        y=[round(average_price_per)],  # 평균 가격을 소수점 첫째자리에서 반올림하여 표시
+        name=house_type,
+        text=[f"{round(average_price_per)}만원"],  # 소수점 이하 자리는 버리고, '만원' 단위로 표시
+        textposition='auto'  # 그래프 위에 텍스트 자동 배치
+        )
+    )
 
 # 그래프 레이아웃 설정
 fig.update_layout(
@@ -44,7 +51,7 @@ fig.update_layout(
     xaxis_title='건물 유형',
     yaxis_title='1평당 평균 가격',
     width=1100,
-    height=500
+    height=500,
 )
 
 # 차트를 화면에 표시

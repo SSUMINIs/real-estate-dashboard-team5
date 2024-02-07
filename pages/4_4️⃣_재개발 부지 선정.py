@@ -6,12 +6,18 @@ import plotly.express as px
 
 st.set_page_config(layout="wide")
 
+# HTML 태그 제거 함수
+def remove_html_tags(text):
+    clean = re.compile('<.*?>')
+    return re.sub(clean, '', text)
+
+
 # 데이터 불러오기
 data_danlist = pd.read_csv('data/단독다가구.csv')
 data_yeonlist = pd.read_csv('data/연립다세대.csv')
 
+# 연립다세대, 단독다가구에 해당하는 데이터 병합하기
 combined_data = pd.concat([data_danlist, data_yeonlist])
-
 
 # 데이터 로드 및 필터링
 data = pd.read_csv("data/Seoul_data.csv")
@@ -38,18 +44,18 @@ fig = px.bar(
     dong_10,  # 수정된 데이터프레임 사용
     x="Name", 
     y="Count", 
-    color='SGG_NM', 
+    color='Name', 
     labels={'Name': '지역', 'Count': '노후 건물수', 'SGG_NM' : '지역'},
     text="Count",
     title='노후 건물 개수 상위 10개 지역',
-    width=1200,
+    width=1100,
     height=500
 )
 
 #x축 정렬 설정
 fig.update_xaxes(categoryorder='total descending')
 st.plotly_chart(fig)
-
+st.markdown("---")
 
 # 20년 이상된 건물의 거래만 고려
 old_transactions = data[data['Age Category'] == '20년 이상']
@@ -75,14 +81,15 @@ fig = px.bar(
     height=500
 )
 st.plotly_chart(fig)
+st.markdown("---")
+
+# 화곡동을 재개발에서 제외한 이유
+st.markdown('#### 강서구 화곡동을 재개발 부지에서 제외한 이유')
+st.write('부동산 투기로 인한 가격 상승으로 인해 **산출가격 기준 초과**로 재개발 부지 선정에서 제외')
 
 # 화곡동에 해당하는 데이터만 필터링
 filtered_data = combined_data[combined_data['BJDONG_NM'] == '화곡동']
 
-# HTML 태그 제거 함수
-def remove_html_tags(text):
-    clean = re.compile('<.*?>')
-    return re.sub(clean, '', text)
 
 # 필드명 한글로 변경
 filtered_data = filtered_data.rename(columns={
@@ -100,10 +107,19 @@ filtered_data['평균 평당가격'] = filtered_data['평균 평당가격'].roun
 # 테이블로 표시
 st.table(filtered_data)
 
-st.image('images/재개발 선정 지역.png', caption='재개발 선정 지역', width=880)
+with st.expander("관련 뉴스 보기"):
+    st.write(
+        '<iframe width="100%" height="900px" src="https://v.daum.net/v/20230423114233323" frameborder="1" allowfullscreen></iframe>',
+        unsafe_allow_html=True
+    )
+
+# 다이어그램
+st.markdown('#### 재개발로 선정된 지역')
+st.image('images/재개발 선정 지역.png', caption='재개발 선정 지역', width=700)
 
 # 버튼을 사용하여 뉴스 정보 로드
-if st.button("재개발 관련 뉴스 정보 가져오기"):
+if st.sidebar.button("재개발 관련 뉴스 정보 가져오기"):
+    st.markdown('#### 재개발로 선정된 지역의 재개발 관련 뉴스 정보를 가져옵니다.')
     queries = ['관악구 신림동 재개발', '강북구 수유동 재개발', '관악구 봉천동 재개발', '양천구 신월동 재개발', '강북구 미아동 재개발']
     for query in queries:
         news = get_news_data(query)
@@ -113,4 +129,3 @@ if st.button("재개발 관련 뉴스 정보 가져오기"):
                 title = remove_html_tags(item['title'])
                 link = item['link']
                 st.markdown(f"[{title}]({link})")
-
