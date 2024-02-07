@@ -25,11 +25,19 @@ st.title("real-estate-dashboard 프로젝트 소개")
 st.markdown("본 프로젝트는 서울시의 2022년과 2023년 부동산 거래 데이터와 법정동 좌표를 활용하여 재개발이 예상되는 지역을 식별하고, Naver Open Search API를 활용하여 관련된 뉴스 기사를 수집하여 예측 결과를 예측 결과를 더 깊이 분석할 수 있도록 구현해보았습니다.")
 st.markdown("---")
 
+st.title("프로젝트 기간")
+st.markdown(
+    "2024년02월02일 ~ 2024년2월08일까지 진행한 미니 프로젝트 입니다."
+    )
+st.image('images/WBS.png', use_column_width=True)
+st.markdown("---")
+
 st.markdown("## 팀원 소개")
 st.markdown("1. [hyelin606](https://github.com/hyelin606)")
 st.markdown("2. [jianteow](https://github.com/jianteow)")
 st.markdown("3. [JiHoonYoon00](https://github.com/JiHoonYoon00)")
 st.markdown("4. [SSUMINIs](https://github.com/SSUMINIs)")
+st.markdown("5. [Kimtae00](https://github.com/Kimtae00)")
 st.markdown("---")
 
 st.markdown("## 데이터셋 출처")
