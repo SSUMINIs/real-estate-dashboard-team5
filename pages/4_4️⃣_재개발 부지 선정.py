@@ -3,6 +3,7 @@ import streamlit as st
 import re
 from crawling import get_news_data
 import plotly.express as px
+import time
 
 st.set_page_config(layout="wide")
 
@@ -117,11 +118,31 @@ with st.expander("관련 뉴스 보기"):
 st.markdown('#### 재개발로 선정된 지역')
 st.image('images/재개발 선정 지역.png', caption='재개발 선정 지역', width=700)
 
-# 버튼을 사용하여 뉴스 정보 로드
+# # 버튼을 사용하여 뉴스 정보 로드
+# if st.sidebar.button("재개발 관련 뉴스 정보 가져오기"):
+#     st.markdown('##### 재개발로 선정된 지역의 재개발 관련 뉴스 정보를 가져옵니다.')
+#     queries = ['관악구 신림동 재개발', '강북구 수유동 재개발', '관악구 봉천동 재개발', '양천구 신월동 재개발', '강북구 미아동 재개발']
+#     for query in queries:
+#         news = get_news_data(query)
+#         if news:
+#             st.subheader(f"{query} 관련 뉴스")
+#             for item in news:
+#                 title = remove_html_tags(item['title'])
+#                 link = item['link']
+#                 st.markdown(f"[{title}]({link})")
+#             st.markdown('---')
+            
+            
+# Initialize the progress bar and status text
+progress_bar = st.sidebar.progress(0)
+status_text = st.sidebar.empty()
+
+# Your existing web crawling code with modifications for the progress bar
 if st.sidebar.button("재개발 관련 뉴스 정보 가져오기"):
-    st.markdown('#### 재개발로 선정된 지역의 재개발 관련 뉴스 정보를 가져옵니다.')
     queries = ['관악구 신림동 재개발', '강북구 수유동 재개발', '관악구 봉천동 재개발', '양천구 신월동 재개발', '강북구 미아동 재개발']
-    for query in queries:
+    
+    total_queries = len(queries)
+    for i, query in enumerate(queries):
         news = get_news_data(query)
         if news:
             st.subheader(f"{query} 관련 뉴스")
@@ -129,3 +150,14 @@ if st.sidebar.button("재개발 관련 뉴스 정보 가져오기"):
                 title = remove_html_tags(item['title'])
                 link = item['link']
                 st.markdown(f"[{title}]({link})")
+            st.markdown('---')
+        
+        # Update progress
+        progress = int((i + 1) / total_queries * 100)
+        status_text.text(f"{progress}% Complete")
+        progress_bar.progress(progress)
+        time.sleep(0.05)  # Optional delay to see progress bar updating
+
+    # Clear the progress bar after completion
+    progress_bar.empty()
+
