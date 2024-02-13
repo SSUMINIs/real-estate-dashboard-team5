@@ -5,7 +5,7 @@
 ---
 ### 프로젝트 기간
 - 2024년02월02일 ~ 2024년2월08일까지 진행한 미니 프로젝트 입니다.
-<img src="https://github.com/Kimtae00/real-estate-dashboard-team5/blob/main/images/WBS.png"/>
+<img src="https://github.com/SSUMINIs/real-estate-dashboard-team5/blob/main/images/WBS.png"/>
 
 ---
 ### 팀원 소개
@@ -103,6 +103,11 @@
 아래는 Open Search API가 호출되는 로직입니다.
 #### Concise API Invocation Diagram
 <img src="https://github.com/Kimtae00/real-estate-dashboard-team5/blob/main/images/API%20%ED%98%B8%EC%B6%9C.png"/>
+
+---
+### 프로젝트 링크
+- [Streamlit 배포 링크](https://real-estate-dashboard-team5-wjg8rw2fejabaesxnrak3k.streamlit.app/)
+- [구글 슬라이드 발표 자료](https://docs.google.com/presentation/d/1ytKjfQ6RWEyIjIyHIHdr7u_V4PVW18V6QSNUsZDBAG4/edit#slide=id.g2b6d6d5019f_8_75)
 
 ---
 <p align="center">
