@@ -137,7 +137,7 @@ st.markdown('<p align="center"><img src="https://img.shields.io/badge/language-p
 # 깃허브 레포지토리 주소
 st.sidebar.title("Github")
 st.sidebar.markdown("""
-    <a href="https://github.com/Kimtae00/real-estate-dashboard-team5">
+    <a href="https://github.com/SSUMINIs/real-estate-dashboard-team5">
         <img src="https://simpleicons.org/icons/github.svg" width="40" height="40" />
     </a>
 """, unsafe_allow_html=True)
